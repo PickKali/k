@@ -6,8 +6,8 @@
   --DGray: #242424;
   --LGray: #3c3c3c;
   --White: #fdfdfd;
-  --Lime: #37ff00;
-  --Yellow: #fff600;
+  --Orange: #ffaa00;
+  --Pink: #e9a3c2;
   --Purple: #c871ff;
 }
 
@@ -158,12 +158,12 @@ a:not(.button) {
   background-color: var(--Primary);
 }
 
-.lime {
-  background-color: var(--Lime);
+.orange {
+  background-color: var(--Orange);
 }
 
-.yellow {
-  background-color: var(--Yellow);
+.pink {
+  background-color: var(--Pink);
 }
 
 .purple {
