@@ -3,6 +3,13 @@ import Layout from "../layouts/Layout.astro";
 
 import { Image } from "astro:assets";
 import kalitrying from "../assets/index/kali-trying.png";
+
+import { getCollection, render } from 'astro:content';
+
+const allProjects = await getCollection('projects');
+const sorted = allProjects.sort((a: { data: { pubDate: { getTime: () => number; }; }; }, b: { data: { pubDate: { getTime: () => number; }; }; }) => 
+  b.data.pubDate.getTime() - a.data.pubDate.getTime()
+);
 ---
 
 <Layout title="PickKali's Portfolio" description="And other, probably silly, things if you look hard enough.">
@@ -27,7 +34,7 @@ import kalitrying from "../assets/index/kali-trying.png";
             small project enjoyer
           </header>
           <div style="padding-inline: 0.5rem; display: flex; flex-wrap: wrap; row-gap: 1rem;">
-            <button class="salmon slantR hoverwhite button slantbutton" style="flex:0 0 50%"><a href="#Projects" class="button">Projects</a></button>
+            <button class="salmon slantR hoverwhite button slantbutton" style="flex:0 0 50%"><a href="#Projects=" class="button">Projects</a></button>
             <button class="orange slantR hoverwhite button slantbutton" style="flex:0 0 50%"><a href="/" class="button">Utilities</a></button>
             <button class="pink slantR hoverwhite button slantbutton" style="flex:0 0 50%" hidden><a href="/" class="button">Market</a></button>
             <button class="purple slantR hoverwhite button slantbutton" style="flex:0 0 50%" hidden><a href="/" class="button">Posts</a></button>
@@ -39,12 +46,42 @@ import kalitrying from "../assets/index/kali-trying.png";
   <section id="Projects" class="halftone section">
     <div class="container">
       <header class="container">
-        <div>
+        <div class="bottomline">
           <span class="kalico" style="font-size: 2rem; margin-right: 1rem;">Projects!</span><span>Click on a card for more info.</span>
+        </div>
+        <div style="margin-top: 1rem;display: flex; flex-wrap: wrap; row-gap: 1rem;">
+          {sorted.map(async (project) => {
+            const imageModule = await import(`${project.data.src}`);
+            const imageData = imageModule.default;
+            return (
+              <article style="min-width: 20rem; max-width: 20rem;">
+                <body>
+                  <Image 
+                    src={imageData} 
+                    alt={project.data.alt}
+                    width={1000}
+                    height={1000}
+                  />
+                </body>
+                <footer>
+                  <span style="font-size: 1.5rem">{project.data.title}</span>
+                  <span>{project.data.description}</span>
+                </footer>
+              </article>
+            );
+          })}
         </div>
       </header>
     </div>
   </section>
+  {sorted.map(async (project) => {
+    const { Content } = await render(project);
+    return (
+      <dialog>
+        <Content />
+      </dialog>
+    );
+  })}
   <style>
     #tryingimage {
       cursor: grab;
