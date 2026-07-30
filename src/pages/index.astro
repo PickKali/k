@@ -5,7 +5,7 @@ import { Image } from "astro:assets";
 import kalitrying from "../assets/index/kali-trying.png";
 ---
 
-<Layout title="PickKali's Portfolio" description="And other, probably silly, things.">
+<Layout title="PickKali's Portfolio" description="And other, probably silly, things if you look hard enough.">
   <section id="main-hero" class="kali-gradient section">
     <div id="main-content" class="container">
       <div class="centered">
@@ -21,17 +21,30 @@ import kalitrying from "../assets/index/kali-trying.png";
         />
       </div>
       <div id="main-article">
-        <article  class="halftone slantR bottomline">
-          <header class="kalico bottomline" style="padding-left: 1.5rem;">
+        <article  class="halftone slantL bottomline">
+          <header class="kalico bottomline" style="padding-right: 1.5rem;">
             <span style="font-size:2rem">PickKali / Kali Is Trying</span><br>
             small project enjoyer
           </header>
+          <div style="padding-inline: 0.5rem; display: flex; flex-wrap: wrap; row-gap: 1rem;">
+            <button class="salmon slantR hoverwhite button slantbutton" style="flex:0 0 50%"><a href="#Projects" class="button">Projects</a></button>
+            <button class="orange slantR hoverwhite button slantbutton" style="flex:0 0 50%"><a href="/" class="button">Utilities</a></button>
+            <button class="pink slantR hoverwhite button slantbutton" style="flex:0 0 50%" hidden><a href="/" class="button">Market</a></button>
+            <button class="purple slantR hoverwhite button slantbutton" style="flex:0 0 50%" hidden><a href="/" class="button">Posts</a></button>
+          </div>
         </article>
       </div>
     </div>
   </section>
-  <div class="container">
-  </div>
+  <section id="Projects" class="halftone section">
+    <div class="container">
+      <header class="container">
+        <div>
+          <span class="kalico" style="font-size: 2rem; margin-right: 1rem;">Projects!</span><span>Click on a card for more info.</span>
+        </div>
+      </header>
+    </div>
+  </section>
   <style>
     #tryingimage {
       cursor: grab;
