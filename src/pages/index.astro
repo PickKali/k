@@ -34,7 +34,7 @@ const sorted = allProjects.sort((a: { data: { pubDate: { getTime: () => number; 
             small project enjoyer
           </header>
           <div style="padding-inline: 0.5rem; display: flex; flex-wrap: wrap; row-gap: 1rem;">
-            <button class="salmon slantR hoverwhite button slantbutton" style="flex:0 0 50%"><a href="#Projects=" class="button">Projects</a></button>
+            <button class="salmon slantR hoverwhite button slantbutton" style="flex:0 0 50%"><a href="#Projects" class="button">Projects</a></button>
             <button class="orange slantR hoverwhite button slantbutton" style="flex:0 0 50%"><a href="/" class="button">Utilities</a></button>
             <button class="pink slantR hoverwhite button slantbutton" style="flex:0 0 50%" hidden><a href="/" class="button">Market</a></button>
             <button class="purple slantR hoverwhite button slantbutton" style="flex:0 0 50%" hidden><a href="/" class="button">Posts</a></button>
@@ -49,23 +49,28 @@ const sorted = allProjects.sort((a: { data: { pubDate: { getTime: () => number; 
         <div class="bottomline">
           <span class="kalico" style="font-size: 2rem; margin-right: 1rem;">Projects!</span><span>Click on a card for more info.</span>
         </div>
-        <div style="margin-top: 1rem;display: flex; flex-wrap: wrap; row-gap: 1rem;">
+        <div style="margin-top: 1rem; display: flex; flex-wrap: wrap; row-gap: 1rem; justify-content: space-evenly;">
           {sorted.map(async (project) => {
-            const imageModule = await import(`${project.data.src}`);
-            const imageData = imageModule.default;
             return (
-              <article style="min-width: 20rem; max-width: 20rem;">
+              <article class="bottomline" style="min-width: 20rem; max-width: 20rem;">
                 <body>
                   <Image 
-                    src={imageData} 
+                    src={project.data.src} 
                     alt={project.data.alt}
-                    width={1000}
-                    height={1000}
+                    style="min-height: 20rem; max-height: 20rem; object-fit: cover;"
                   />
                 </body>
-                <footer>
+                <footer style="margin-top: 0rem">
                   <span style="font-size: 1.5rem">{project.data.title}</span>
-                  <span>{project.data.description}</span>
+                  <p style="font-size:0.8rem; margin-bottom: 0;">{project.data.size.toUpperCase()} | {project.data.pubDate.toLocaleDateString()}</p>
+                  <p style="padding-block: 0.5rem; margin-bottom: 0;">{project.data.description}</p>
+                  {project.data.tags && project.data.tags.length > 0 && (
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                      {project.data.tags.map((tag) => (
+                        <span class="tag">{tag}</span>
+                      ))}
+                    </div>
+                  )}
                 </footer>
               </article>
             );
@@ -78,7 +83,9 @@ const sorted = allProjects.sort((a: { data: { pubDate: { getTime: () => number; 
     const { Content } = await render(project);
     return (
       <dialog>
-        <Content />
+        <article>
+          <Content />
+        </article>
       </dialog>
     );
   })}

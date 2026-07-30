@@ -167,3 +167,10 @@ article>header{
   padding-top: 1rem;
   background: none;
 }
+
+.tag {
+  background-color: var(--DGray);
+  border-radius: 1rem;
+  padding-inline: 0.5rem;
+  border: 1px solid var(--LGray);
+}
