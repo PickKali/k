@@ -11,5 +11,5 @@ export default defineConfig({
   image: {
     responsiveStyles: true,
   },
-  base: '/k/'
+  base: "/k/",
 });

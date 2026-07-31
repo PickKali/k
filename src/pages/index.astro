@@ -4,15 +4,21 @@ import Layout from "../layouts/Layout.astro";
 import { Image } from "astro:assets";
 import kalitrying from "../assets/index/kali-trying.png";
 
-import { getCollection, render } from 'astro:content';
+import { getCollection, render } from "astro:content";
 
-const allProjects = await getCollection('projects');
-const sorted = allProjects.sort((a: { data: { pubDate: { getTime: () => number; }; }; }, b: { data: { pubDate: { getTime: () => number; }; }; }) => 
-  b.data.pubDate.getTime() - a.data.pubDate.getTime()
+const allProjects = await getCollection("projects");
+const sorted = allProjects.sort(
+  (
+    a: { data: { pubDate: { getTime: () => number } } },
+    b: { data: { pubDate: { getTime: () => number } } },
+  ) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
 );
 ---
 
-<Layout title="PickKali's Portfolio" description="And other, probably silly, things if you look hard enough.">
+<Layout
+  title="PickKali's Project List"
+  description="And other, probably silly, things if you look hard enough."
+>
   <section id="main-hero" class="kali-gradient section">
     <div id="main-content" class="container">
       <div class="centered">
@@ -24,20 +30,38 @@ const sorted = allProjects.sort((a: { data: { pubDate: { getTime: () => number; 
           width={450}
           title="Oh, there's a cursor on me. Hi cursor! ^w^"
           layout="constrained"
-          draggable=false
+          draggable="false"
         />
       </div>
       <div id="main-article">
-        <article  class="halftone slantL bottomline">
+        <article class="halftone slantL bottomline">
           <header class="kalico bottomline" style="padding-right: 1.5rem;">
-            <span style="font-size:2rem">PickKali / Kali Is Trying</span><br>
+            <span style="font-size:2rem">PickKali / Kali Is Trying</span><br />
             small project enjoyer
           </header>
-          <div style="padding-inline: 0.5rem; display: flex; flex-wrap: wrap; row-gap: 1rem;">
-            <button class="salmon slantR hoverwhite button slantbutton" style="flex:0 0 50%"><a href="#Projects" class="button">Projects</a></button>
-            <button class="orange slantR hoverwhite button slantbutton" style="flex:0 0 50%"><a href="/" class="button">Utilities</a></button>
-            <button class="pink slantR hoverwhite button slantbutton" style="flex:0 0 50%" hidden><a href="/" class="button">Market</a></button>
-            <button class="purple slantR hoverwhite button slantbutton" style="flex:0 0 50%" hidden><a href="/" class="button">Posts</a></button>
+          <div
+            style="padding-inline: 0.5rem; display: flex; flex-wrap: wrap; row-gap: 1rem;"
+          >
+            <button
+              id="projectbutton"
+              class="salmon slantR hoverwhite button slantbutton"
+              style="flex:0 0 50%">Projects</button
+            >
+            <button
+              class="orange slantR hoverwhite button slantbutton"
+              style="flex:0 0 50%"
+              ><a href="/k/" class="button">Utilities</a></button
+            >
+            <button
+              class="pink slantR hoverwhite button slantbutton"
+              style="flex:0 0 50%"
+              hidden><a href="/k/" class="button">Market</a></button
+            >
+            <button
+              class="purple slantR hoverwhite button slantbutton"
+              style="flex:0 0 50%"
+              hidden><a href="/k/" class="button">Posts</a></button
+            >
           </div>
         </article>
       </div>
@@ -47,48 +71,92 @@ const sorted = allProjects.sort((a: { data: { pubDate: { getTime: () => number; 
     <div class="container">
       <header class="container">
         <div class="bottomline">
-          <span class="kalico" style="font-size: 2rem; margin-right: 1rem;">Projects!</span><span>Click on a card for more info.</span>
+          <span class="kalico" style="font-size: 2rem; margin-right: 1rem;"
+            >Projects!</span
+          ><span>Click on a card for more info.</span>
         </div>
-        <div style="margin-top: 1rem; display: flex; flex-wrap: wrap; row-gap: 1rem; justify-content: space-evenly;">
-          {sorted.map(async (project) => {
-            return (
-              <article class="bottomline" style="min-width: 20rem; max-width: 20rem;">
-                <body>
-                  <Image 
-                    src={project.data.src} 
-                    alt={project.data.alt}
-                    style="min-height: 20rem; max-height: 20rem; object-fit: cover;"
-                  />
-                </body>
-                <footer style="margin-top: 0rem">
-                  <span style="font-size: 1.5rem">{project.data.title}</span>
-                  <p style="font-size:0.8rem; margin-bottom: 0;">{project.data.size.toUpperCase()} | {project.data.pubDate.toLocaleDateString()}</p>
-                  <p style="padding-block: 0.5rem; margin-bottom: 0;">{project.data.description}</p>
-                  {project.data.tags && project.data.tags.length > 0 && (
-                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                      {project.data.tags.map((tag) => (
-                        <span class="tag">{tag}</span>
-                      ))}
+        <div
+          style="margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-evenly;"
+        >
+          {
+            sorted.map(async (project) => {
+              return (
+                <article
+                  id={project.slug}
+                  class="projectcard kali-container"
+                  style="width: 15rem;"
+                  data-tags={JSON.stringify(project.data.tags || [])}
+                >
+                  <body>
+                    <Image
+                      src={project.data.src}
+                      alt={project.data.alt}
+                      style="height: 10rem; object-fit: cover;"
+                    />
+                  </body>
+                  <footer style="margin-top: 0rem; display: flex; flex-wrap: wrap; flex-direction: column;">
+                    <div>
+                      <span style="font-size: 1.5rem">
+                        {project.data.title}
+                      </span>
+                      <p style="font-size:0.8rem; margin-bottom: 0; margin-top: 0.5rem;">
+                        {project.data.size.toUpperCase()} |{" "}
+                        {project.data.pubDate.toLocaleDateString()}
+                      </p>
                     </div>
-                  )}
-                </footer>
-              </article>
-            );
-          })}
+                    <p style="padding-block: 0.5rem; margin-bottom: 0; overflow: auto; height: 4rem">
+                      {project.data.description}
+                    </p>
+                    {project.data.tags && project.data.tags.length > 0 && (
+                      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                        {project.data.tags.map((tag) => (
+                          <span class="tag">{tag}</span>
+                        ))}
+                      </div>
+                    )}
+                  </footer>
+                </article>
+              );
+            })
+          }
         </div>
       </header>
     </div>
   </section>
-  {sorted.map(async (project) => {
-    const { Content } = await render(project);
-    return (
-      <dialog>
-        <article>
-          <Content />
-        </article>
-      </dialog>
-    );
-  })}
+  {
+    sorted.map(async (project) => {
+      const { Content } = await render(project);
+      return (
+        <dialog id={project.slug + "_modal"}>
+          <article class="kali-container">
+            <header>
+              <div style="display: flex; justify-content: space-around;">
+                <b>{project.data.title}</b>
+                <button class="closemodal" aria-label="Close" />
+              </div>
+              <p style="font-size:0.8rem; margin-bottom: 0.5rem; margin-top: 0.5rem;">
+                Project Size: {project.data.size.toUpperCase()} |{" "}
+                {project.data.pubDate.toLocaleDateString()}
+              </p>
+              {project.data.tags && project.data.tags.length > 0 && (
+                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  {project.data.tags.map((tag) => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </div>
+              )}
+              <Image
+                src={project.data.src}
+                alt={project.data.alt}
+                style="height: 15rem; object-fit: cover;"
+              />
+            </header>
+            <Content />
+          </article>
+        </dialog>
+      );
+    })
+  }
   <style>
     #tryingimage {
       cursor: grab;
@@ -108,14 +176,34 @@ const sorted = allProjects.sort((a: { data: { pubDate: { getTime: () => number; 
       display: flex;
       flex-wrap: wrap;
       justify-content: space-evenly;
-      gap: 1rem .5rem;
+      gap: 1rem 0.5rem;
     }
     #main-article {
       display: flex;
       flex-direction: column;
       justify-content: center;
     }
+    .projectcard {
+      cursor: help;
+    }
+    .closemodal {
+      display: block;
+      width: 1rem;
+      height: 1rem;
+      padding: 0;
+      margin-top: 0;
+      margin-left: auto;
+      border: none;
+      background-image: var(--pico-icon-close);
+      background-position: center;
+      background-size: auto 1rem;
+      background-repeat: no-repeat;
+      background-color: transparent;
+      border-radius: 100%;
+      opacity: 0.5;
+      transition: opacity var(--pico-transition);
+    }
   </style>
-
+  <script src="../scripts/picomodal.js"></script>
   <script src="../scripts/index.js"></script>
 </Layout>

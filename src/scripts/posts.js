@@ -1,4 +1,3 @@
-
 $(function () {
   const posts = window.__POSTS__;
 

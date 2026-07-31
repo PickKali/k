@@ -23,11 +23,11 @@ body {
   scroll-behavior: smooth;
 }
 
-body>main {
+body > main {
   padding: 0;
 }
 
-.kali-gradient{
+.kali-gradient {
   background-image:
     linear-gradient(
       to right,
@@ -147,7 +147,8 @@ a:not(.button) {
   text-decoration: none;
 }
 
-.button:hover,.button:focus {
+.button:hover,
+.button:focus {
   transform: translate(0px, -3px);
 }
 
@@ -155,7 +156,8 @@ a:not(.button) {
   padding-inline: 1.5rem;
 }
 
-.hoverwhite:hover, .hoverwhite:focus {
+.hoverwhite:hover,
+.hoverwhite:focus {
   background-color: var(--White);
 }
 
@@ -163,7 +165,7 @@ a:not(.button) {
   border-bottom: 4px solid var(--White);
 }
 
-article>header{
+article > header {
   padding-top: 1rem;
   background: none;
 }
@@ -171,6 +173,13 @@ article>header{
 .tag {
   background-color: var(--DGray);
   border-radius: 1rem;
-  padding-inline: 0.5rem;
-  border: 1px solid var(--LGray);
+  padding: 2px 0.5rem;
+  border: 2px solid var(--LGray);
+}
+
+.kali-container {
+  border: 2px solid var(--LGray);
+  border-bottom: 4px solid var(--White);
+  border-radius: 0.5rem;
+  background-color: var(--DGray);
 }
