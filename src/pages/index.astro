@@ -82,7 +82,7 @@ const sorted = allProjects.sort(
             sorted.map(async (project) => {
               return (
                 <article
-                  id={project.slug}
+                  id={project.slug.split("/")[0]}
                   class="projectcard kali-container"
                   style="width: 15rem;"
                   data-tags={JSON.stringify(project.data.tags || [])}
@@ -101,6 +101,8 @@ const sorted = allProjects.sort(
                       </span>
                       <p style="font-size:0.8rem; margin-bottom: 0; margin-top: 0.5rem;">
                         {project.data.size.toUpperCase()} |{" "}
+                        {project.data.startDate.toLocaleDateString()}
+                        {" - "}
                         {project.data.pubDate.toLocaleDateString()}
                       </p>
                     </div>
@@ -127,7 +129,7 @@ const sorted = allProjects.sort(
     sorted.map(async (project) => {
       const { Content } = await render(project);
       return (
-        <dialog id={project.slug + "_modal"}>
+        <dialog id={project.slug.split("/")[0] + "_modal"}>
           <article class="kali-container">
             <header>
               <div style="display: flex; justify-content: space-around;">
@@ -136,6 +138,8 @@ const sorted = allProjects.sort(
               </div>
               <p style="font-size:0.8rem; margin-bottom: 0.5rem; margin-top: 0.5rem;">
                 Project Size: {project.data.size.toUpperCase()} |{" "}
+                {project.data.startDate.toLocaleDateString()}
+                {" - "}
                 {project.data.pubDate.toLocaleDateString()}
               </p>
               {project.data.tags && project.data.tags.length > 0 && (

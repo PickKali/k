@@ -183,3 +183,7 @@ article > header {
   border-radius: 0.5rem;
   background-color: var(--DGray);
 }
+
+dialog > article {
+  max-width: 80vw;
+}
