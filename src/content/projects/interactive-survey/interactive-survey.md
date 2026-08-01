@@ -29,18 +29,20 @@ _Overall, the backend had already existed. This year was all about improving bot
 
 To get started with the redesign of the user experience, each page had been broken down into its core components. This stayed the same but I then noticed that survey creation page had both the questions and settings on the same screen. Since these two functionalities would have different use cases, these were then separated into different tabs.
 
-![]()
+![Gif of switching between the questions tab and settings tab](./tabs.gif)
 
 One thing that caught my attention was the options of multiple-choice style questions being a text input instructing users to type using a delimiter (in this case, `|` ). Since the backend only accepted string inputs, the options were converted to a deliminated format for the backend to receive.
 
-![Gif of multiple choice interactions with the ]()
+![Gif of multiple choice interactions with the options appearing below the entry section.](./options.gif)
 
 Back to the main survey creation page, I noticed that there was no way to tell what visualization is being used! Then, a new iframe was added per question to display a static representation of the visualization used.
 
-![Image of visualizations appearing on the side of question cards.]()
+![Image of visualizations appearing on the side of question cards.](./static-endpoint.png)
 
 When it comes to unit testing, one requirement of the course was to implement unit testing. Trying to find the previous team's unit tests, I couldn't find any! Turns out, to fill that requirement, they used the github page building action. Yeah... we weren't even using the github page branch since we as a team had decided to put all of the page information onto the homepage of the project, instead of having a separate branch for the information requirement. Okay, let's just
 [test to make sure it builds](https://github.com/beheyx/Interactive-Survey-Tool-For-Data-Visualization-v2/actions/runs/26939219461/job/79476259223), and then later added unit tests as they were created.
+
+A lot of changes were smaller redesigns, as seen with the first gif and the last image in this section. Those question divs had very little information on it and its interactions were only accessible by going to the individual question page. That resulted in the redesign of the question divs to what it is now.
 
 ### Conclusion
 
@@ -52,7 +54,7 @@ There was one individual that went to the team that said something the stuck wit
 
 Or something like that, I'm writing this nearly two months after that event.
 
-And, the project was done. It might go into a third year since the team had nobody familiar with cybersecurity.
+And, the project was done. It might go into a third year since the team had nobody familiar with cybersecurity. Looking at the question divs, I'd rather have the edit, ordering, and delete on the same line because there's a lot of whitespace. Oh well, the project is already wrapped up. :P
 
 | Goal                         | Result                                                                                                                                                                                                       |
 | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
