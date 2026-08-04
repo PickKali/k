@@ -3,66 +3,164 @@ import Layout from "../layouts/Layout.astro";
 
 import { Image } from "astro:assets";
 import kalitrying from "../assets/index/kali-trying.png";
+
+import { getCollection, render } from "astro:content";
+
+const allProjects = await getCollection("projects");
+const sorted = allProjects.sort(
+  (
+    a: { data: { pubDate: { getTime: () => number } } },
+    b: { data: { pubDate: { getTime: () => number } } },
+  ) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
+);
 ---
 
-<Layout title="PickKali's silly corner" description="Tap here for +1 Silly">
-  <section id="Main" class="section">
-    <div class="centered">
-      <Image
-        id="tryingimage"
-        src={kalitrying}
-        alt="Drawing of Kali sitting down with headphones, looking at her laptop."
-        height={450}
-        width={450}
-        title="Oh, there's a cursor on me. Hi cursor! ^w^"
-        layout="constrained"
-        draggable=false
-      />
-    </div>
-    <div class="halftone slantR card">
+<Layout
+  title="PickKali's Project List"
+  description="And other, probably silly, things if you look hard enough."
+>
+  <section id="main-hero" class="kali-gradient section">
+    <div id="main-content" class="container">
       <div class="centered">
-        <div class="titlerow allcentered" style="max-width: min-content;">
-          <h1>Kali,</h1>
-          <select id="titleselect">
-            <option value="0">No Title Selected</option>
-            <option value="1">Geospatial Researcher</option>
-            <option value="2">User Experience Researcher</option>
-            <option value="3">Human Computer Interaction</option>
-            <option value="4">Game Developer</option>
-            <option value="5">Aspiring Hobbyist Composer</option>
-            <option value="6">Former Speedrunner</option>
-          </select>
-        </div>
-        <i id="flavortext">No title? Guess I'm just Kali then!</i>
-        <br /><br />
-        <div id="options" class="allcentered flexme">
-          <a href="#Projects" class="button orange card slantL hoverwhite">Projects▼</a>
-          <a href="#Music" class="button pink card slantL hoverwhite">Music▼</a>
-          <a href="#Posts" class="button purple card slantL hoverwhite">Posts▼</a>
-        </div>
+        <Image
+          id="tryingimage"
+          src={kalitrying}
+          alt="Drawing of Kali sitting down with headphones, looking at her laptop."
+          height={450}
+          width={450}
+          title="Oh, there's a cursor on me. Hi cursor! ^w^"
+          layout="constrained"
+          draggable="false"
+        />
+      </div>
+      <div id="main-article">
+        <article class="halftone slantL bottomline">
+          <header class="kalico bottomline" style="padding-right: 1.5rem;">
+            <span style="font-size:2rem">PickKali / Kali Is Trying</span><br />
+            small project enjoyer
+          </header>
+          <div
+            style="padding-inline: 0.5rem; display: flex; flex-wrap: wrap; row-gap: 1rem;"
+          >
+            <button
+              id="projectbutton"
+              class="salmon slantR hoverwhite button slantbutton"
+              style="flex:0 0 50%">Projects</button
+            >
+            <button
+              class="orange slantR hoverwhite button slantbutton"
+              style="flex:0 0 50%"
+              hidden><a href="/k/" class="button">Utilities</a></button
+            >
+            <button
+              class="pink slantR hoverwhite button slantbutton"
+              style="flex:0 0 50%"
+              hidden><a href="/k/" class="button">Market</a></button
+            >
+            <button
+              class="purple slantR hoverwhite button slantbutton"
+              style="flex:0 0 50%"
+              hidden><a href="/k/" class="button">Posts</a></button
+            >
+          </div>
+        </article>
       </div>
     </div>
   </section>
-  <section id="Projects" class="section">
-    <div class="halftone slantL card maximize centered">
-      <header>
-        <h1>Projects</h1>
+  <section id="Projects" class="halftone section">
+    <div class="container">
+      <header class="container">
+        <div class="bottomline">
+          <span class="kalico" style="font-size: 2rem; margin-right: 1rem;"
+            >Projects!</span
+          ><span>Click on a card for more info.</span>
+        </div>
+        <div
+          style="margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-evenly;"
+        >
+          {
+            sorted.map(async (project) => {
+              return (
+                <article
+                  id={project.slug.split("/")[0]}
+                  class="projectcard kali-container"
+                  style="width: 15rem;"
+                  data-tags={JSON.stringify(project.data.tags || [])}
+                >
+                  <body>
+                    <Image
+                      src={project.data.src}
+                      alt={project.data.alt}
+                      style="height: 10rem; object-fit: cover;"
+                    />
+                  </body>
+                  <footer style="margin-top: 0rem; display: flex; flex-wrap: wrap; flex-direction: column;">
+                    <div>
+                      <span style="font-size: 1.5rem">
+                        {project.data.title}
+                      </span>
+                      <p style="font-size:0.8rem; margin-bottom: 0; margin-top: 0.5rem;">
+                        {project.data.size.toUpperCase()} |{" "}
+                        {project.data.startDate.toLocaleDateString()}
+                        {" - "}
+                        {project.data.pubDate.toLocaleDateString()}
+                      </p>
+                    </div>
+                    <p style="padding-block: 0.5rem; margin-bottom: 0; overflow: auto; height: 4rem">
+                      {project.data.description}
+                    </p>
+                    {project.data.tags && project.data.tags.length > 0 && (
+                      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                        {project.data.tags.map((tag) => (
+                          <span class="tag">{tag}</span>
+                        ))}
+                      </div>
+                    )}
+                  </footer>
+                </article>
+              );
+            })
+          }
+        </div>
       </header>
-      <i>No projects have been posted.</i>
     </div>
   </section>
-  <section id="Music" class="section">
-    <div class="halftone slantR card maximize centered">
-      <h1>Music</h1>
-      <i>No music has been posted.</i>
-    </div>
-  </section>
-    <section id="Posts" class="section">
-    <div class="halftone slantL card maximize centered">
-      <h1>Posts</h1>
-      <i>No posts have been posted.</i>
-    </div>
-  </section>
+  {
+    sorted.map(async (project) => {
+      const { Content } = await render(project);
+      return (
+        <dialog id={project.slug.split("/")[0] + "_modal"}>
+          <article class="kali-container">
+            <header>
+              <div style="display: flex; justify-content: space-around;">
+                <b>{project.data.title}</b>
+                <button class="closemodal" aria-label="Close" />
+              </div>
+              <p style="font-size:0.8rem; margin-bottom: 0.5rem; margin-top: 0.5rem;">
+                Project Size: {project.data.size.toUpperCase()} |{" "}
+                {project.data.startDate.toLocaleDateString()}
+                {" - "}
+                {project.data.pubDate.toLocaleDateString()}
+              </p>
+              {project.data.tags && project.data.tags.length > 0 && (
+                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  {project.data.tags.map((tag) => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </div>
+              )}
+              <Image
+                src={project.data.src}
+                alt={project.data.alt}
+                style="height: 15rem; object-fit: cover;"
+              />
+            </header>
+            <Content />
+          </article>
+        </dialog>
+      );
+    })
+  }
   <style>
     #tryingimage {
       cursor: grab;
@@ -71,13 +169,45 @@ import kalitrying from "../assets/index/kali-trying.png";
     #tryingimage:active {
       cursor: grabbing;
     }
-    #options {
-      max-width: 35vw;
+    #main-hero {
       display: flex;
+      flex-direction: column;
       justify-content: center;
+      margin-inline: auto;
+      padding-bottom: 4.5rem;
+    }
+    #main-content {
+      display: flex;
       flex-wrap: wrap;
+      justify-content: space-evenly;
+      gap: 1rem 0.5rem;
+    }
+    #main-article {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .projectcard {
+      cursor: help;
+    }
+    .closemodal {
+      display: block;
+      width: 1rem;
+      height: 1rem;
+      padding: 0;
+      margin-top: 0;
+      margin-left: auto;
+      border: none;
+      background-image: var(--pico-icon-close);
+      background-position: center;
+      background-size: auto 1rem;
+      background-repeat: no-repeat;
+      background-color: transparent;
+      border-radius: 100%;
+      opacity: 0.5;
+      transition: opacity var(--pico-transition);
     }
   </style>
-
+  <script src="../scripts/picomodal.js"></script>
   <script src="../scripts/index.js"></script>
 </Layout>

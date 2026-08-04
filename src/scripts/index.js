@@ -1,16 +1,19 @@
-const titles = [
-  "No title? Guess I'm just Kali then!",
-  "I should put a disclaimer that this isn't a survey.",
-  "Make sure you have IRB approval first.",
-  "Remember to cut your curbs!",
-  "Unlimited games, but no games.",
-  "I haven't mastered the art of digifu.",
-  "Baked a cake in 36.550 seconds."
-];
+import { openModal, closeModal, visibleModal } from "./picomodal";
 
 $(function () {
-  $("#titleselect").on('change', function(e) {
-    const newtitle = this.value;
-    $("#flavortext").text(titles[newtitle]);
+  $(".projectcard").on("click", function (event) {
+    //most readable line of code
+    openModal(
+      $(`#${$(event.target).closest("article").prop("id") + "_modal"}`)[0],
+    );
+  });
+  $(".closemodal").on("click", function (event) {
+    //second most readable line of code
+    closeModal(visibleModal);
+  });
+
+  $("#projectbutton").on("click", function (e) {
+    console.log("uhh");
+    $("html").scrollTop($("#Projects").offset().top);
   });
 });
