@@ -187,3 +187,8 @@ article > header {
 dialog > article {
   max-width: 70vw;
 }
+
+.in-rows {
+  display: flex;
+  flex-direction: column;
+}

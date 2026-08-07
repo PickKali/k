@@ -13,6 +13,8 @@
     "@astrojs/mdx": "^4.3.4",
     "@picocss/pico": "^2.1.1",
     "astro": "^5.16.6",
+    "cytoscape": "^3.34.0",
+    "cytoscape-dagre": "^4.0.0",
     "react": "^19.1.1",
     "sharp": "^0.34.3"
   },
